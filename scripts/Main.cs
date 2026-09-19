@@ -37,6 +37,8 @@ public partial class Main : Node
 
 	private int instructionsPerSecond;
 	private int waitCounter;
+	
+	private int stackover = 0;
 
 	private byte[] bytecode;
 	private byte[] ram;
@@ -239,10 +241,19 @@ public partial class Main : Node
 				break;
 			case Operand.CAL:
 				addressStack.Push(programCounter + 1);
+				if (addressStack.Count > 16){
+					stackover++;
+				}
 				programCounter = address;
 				break;
 			case Operand.RET:
+				if (addressStack.Count > stackover){
 				programCounter = addressStack.Pop();
+				}else
+				{
+				programCounter =0;
+					stackover--;
+				}
 				break;
 			case Operand.LOD:
 				offset = (regC & 0b111) + (((regC & 0b1000) >> 3) == 1 ? -8 : 0);
