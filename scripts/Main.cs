@@ -252,8 +252,10 @@ public partial class Main : Node
 				}else
 				{
 				programCounter =0;
+				if (stackover != 0)
+			{
 					stackover--;
-				}
+				}}
 				break;
 			case Operand.LOD:
 				offset = (regC & 0b111) + (((regC & 0b1000) >> 3) == 1 ? -8 : 0);
